@@ -9,48 +9,63 @@
       background: black;
       overflow: hidden;
     }
+
     .star {
       position: absolute;
+      width: 2px;
+      height: 2px;
       background: white;
       border-radius: 50%;
-      opacity: 0.8;
+      opacity: 0.9;
     }
-    /* تأثير وميض النجمة */
+
+    /* خطوط متقاطعة تعطي شكل شعاع */
     .star::before, .star::after {
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
-      background: rgba(255,255,255,0.5);
-      transform: translate(-50%, -50%) rotate(45deg);
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.7);
+    }
+
+    .star::before {
+      width: 14px;
+      height: 2px;
       border-radius: 2px;
     }
-    .star::before {
-      width: 12px;
-      height: 2px;
-    }
+
     .star::after {
       width: 2px;
-      height: 12px;
+      height: 14px;
+      border-radius: 2px;
     }
-    /* النجوم الكبيرة */
+
+    /* نجم كبير */
     .big-star {
-      width: 10px !important;
-      height: 10px !important;
-      box-shadow: 0 0 20px 8px rgba(255,255,255,0.9);
-      opacity: 1;
+      width: 6px;
+      height: 6px;
+      box-shadow: 0 0 20px 6px rgba(255,255,255,0.9);
     }
+
     .big-star::before {
-      width: 24px;
+      width: 30px;
       height: 3px;
     }
+
     .big-star::after {
       width: 3px;
-      height: 24px;
+      height: 30px;
     }
-    .star:hover::after,
-    .star:hover::before {
-      background: yellow;
+
+    /* حركة وميض خفيفة */
+    @keyframes twinkle {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .star {
+      animation: twinkle 3s infinite;
+      animation-delay: calc(-1s * var(--i));
     }
   </style>
 </head>
@@ -62,34 +77,27 @@
       "Fomalhaut","Deneb","Mimosa","Regulus","Adhara","Shaula","Castor","Bellatrix",
       "Elnath","Miaplacidus","Alnilam","Alnair","Alioth","Alnitak","Dubhe","Merak",
       "Wezen","Sargas","Kaus Australis","Avior","Alhena","Peacock","Mirzam","Polaris",
-      "Menkalinan","Alphard","Rasalhague","Algol","Zubenelgenubi","Markab","Sadalmelik",
-      "Nunki","Denebola","Alsephina","Gacrux"
+      "Menkalinan","Alphard","Rasalhague","Algol","Markab","Sadalmelik","Nunki",
+      "Denebola","Gacrux","Spica","Eltanin","Zubenelgenubi"
     ];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    // نعمل 100 نجمة
     for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.classList.add("star");
-      
-      // خلي نجمتين كبار مميزين
-      if (i === 10 || i === 50) {
+      star.style.left = `${random(0, window.innerWidth)}px`;
+      star.style.top = `${random(0, window.innerHeight)}px`;
+      star.style.setProperty('--i', i);
+
+      if (i === 20 || i === 70) {  // نخلي نجمتين كبار
         star.classList.add("big-star");
         star.title = starNames[Math.floor(Math.random() * starNames.length)] + " (Giant)";
       } else {
-        const size = random(2, 5);
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${random(0, window.innerWidth)}px`;
-        star.style.top = `${random(0, window.innerHeight)}px`;
         star.title = starNames[Math.floor(Math.random() * starNames.length)];
       }
-
-      star.style.left = `${random(0, window.innerWidth)}px`;
-      star.style.top = `${random(0, window.innerHeight)}px`;
 
       document.body.appendChild(star);
     }
