@@ -10,62 +10,39 @@
       overflow: hidden;
     }
 
+    /* شكل نجم بخمس زوايا */
     .star {
       position: absolute;
-      width: 2px;
-      height: 2px;
+      width: 12px;
+      height: 12px;
       background: white;
-      border-radius: 50%;
+      clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 91%,
+        50% 70%,
+        21% 91%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+      );
+      box-shadow: 0 0 8px rgba(255,255,255,0.8);
       opacity: 0.9;
-    }
-
-    /* خطوط متقاطعة تعطي شكل شعاع */
-    .star::before, .star::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.7);
-    }
-
-    .star::before {
-      width: 14px;
-      height: 2px;
-      border-radius: 2px;
-    }
-
-    .star::after {
-      width: 2px;
-      height: 14px;
-      border-radius: 2px;
+      animation: twinkle 3s infinite ease-in-out;
     }
 
     /* نجم كبير */
     .big-star {
-      width: 6px;
-      height: 6px;
-      box-shadow: 0 0 20px 6px rgba(255,255,255,0.9);
+      width: 24px;
+      height: 24px;
+      box-shadow: 0 0 20px 8px rgba(255,255,255,1);
     }
 
-    .big-star::before {
-      width: 30px;
-      height: 3px;
-    }
-
-    .big-star::after {
-      width: 3px;
-      height: 30px;
-    }
-
-    /* حركة وميض خفيفة */
     @keyframes twinkle {
-      0%,100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .star {
-      animation: twinkle 3s infinite;
-      animation-delay: calc(-1s * var(--i));
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
     }
   </style>
 </head>
@@ -76,9 +53,7 @@
       "Betelgeuse","Hadar","Altair","Acrux","Aldebaran","Antares","Spica","Pollux",
       "Fomalhaut","Deneb","Mimosa","Regulus","Adhara","Shaula","Castor","Bellatrix",
       "Elnath","Miaplacidus","Alnilam","Alnair","Alioth","Alnitak","Dubhe","Merak",
-      "Wezen","Sargas","Kaus Australis","Avior","Alhena","Peacock","Mirzam","Polaris",
-      "Menkalinan","Alphard","Rasalhague","Algol","Markab","Sadalmelik","Nunki",
-      "Denebola","Gacrux","Spica","Eltanin","Zubenelgenubi"
+      "Wezen","Sargas","Kaus Australis","Avior","Alhena","Peacock","Mirzam","Polaris"
     ];
 
     function random(min, max) {
@@ -90,9 +65,8 @@
       star.classList.add("star");
       star.style.left = `${random(0, window.innerWidth)}px`;
       star.style.top = `${random(0, window.innerHeight)}px`;
-      star.style.setProperty('--i', i);
 
-      if (i === 20 || i === 70) {  // نخلي نجمتين كبار
+      if (i === 10 || i === 50) { // نجمتين كبار
         star.classList.add("big-star");
         star.title = starNames[Math.floor(Math.random() * starNames.length)] + " (Giant)";
       } else {
