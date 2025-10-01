@@ -10,31 +10,39 @@
       overflow: hidden;
     }
 
+    /* شكل نجم بخمس زوايا */
     .star {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: radial-gradient(circle, white 60%, rgba(255,255,255,0) 100%);
-      border-radius: 50%;
-      box-shadow: 
-        0 0 6px 2px rgba(255,255,255,0.9),
-        0 0 12px 6px rgba(255,255,255,0.5);
+      width: 12px;
+      height: 12px;
+      background: white;
+      clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 91%,
+        50% 70%,
+        21% 91%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+      );
+      box-shadow: 0 0 8px rgba(255,255,255,0.8);
+      opacity: 0.9;
       animation: twinkle 3s infinite ease-in-out;
     }
 
-    /* نجمتين كبار */
+    /* نجم كبير */
     .big-star {
-      width: 10px;
-      height: 10px;
-      box-shadow: 
-        0 0 10px 4px rgba(255,255,255,1),
-        0 0 25px 10px rgba(255,255,255,0.7),
-        0 0 40px 15px rgba(255,255,200,0.6);
+      width: 24px;
+      height: 24px;
+      box-shadow: 0 0 20px 8px rgba(255,255,255,1);
     }
 
     @keyframes twinkle {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.15); }
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
     }
   </style>
 </head>
@@ -42,25 +50,27 @@
   <script>
     const starNames = [
       "Sirius","Canopus","Arcturus","Vega","Capella","Rigel","Procyon","Achernar",
-      "Betelgeuse","Altair","Acrux","Aldebaran","Antares","Spica","Pollux",
-      "Fomalhaut","Deneb","Regulus","Shaula","Castor","Bellatrix","Polaris"
+      "Betelgeuse","Hadar","Altair","Acrux","Aldebaran","Antares","Spica","Pollux",
+      "Fomalhaut","Deneb","Mimosa","Regulus","Adhara","Shaula","Castor","Bellatrix",
+      "Elnath","Miaplacidus","Alnilam","Alnair","Alioth","Alnitak","Dubhe","Merak",
+      "Wezen","Sargas","Kaus Australis","Avior","Alhena","Peacock","Mirzam","Polaris"
     ];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.classList.add("star");
       star.style.left = `${random(0, window.innerWidth)}px`;
       star.style.top = `${random(0, window.innerHeight)}px`;
-      star.title = starNames[Math.floor(Math.random() * starNames.length)];
 
-      // خلي نجمتين كبار مميزين
-      if (i === 30 || i === 90) {
+      if (i === 10 || i === 50) { // نجمتين كبار
         star.classList.add("big-star");
-        star.title += " (Giant)";
+        star.title = starNames[Math.floor(Math.random() * starNames.length)] + " (Giant)";
+      } else {
+        star.title = starNames[Math.floor(Math.random() * starNames.length)];
       }
 
       document.body.appendChild(star);
