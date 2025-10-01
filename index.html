@@ -10,33 +10,31 @@
       overflow: hidden;
     }
 
-    /* شكل نجمة */
     .star {
       position: absolute;
-      width: 15px;
-      height: 15px;
-      background: white;
-      clip-path: polygon(
-        50% 0%, 61% 35%, 98% 35%, 
-        68% 57%, 79% 91%, 50% 70%, 
-        21% 91%, 32% 57%, 2% 35%, 
-        39% 35%
-      );
-      box-shadow: 0 0 6px rgba(255,255,255,0.9);
-      animation: twinkle 2s infinite ease-in-out;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, white 60%, rgba(255,255,255,0) 100%);
+      border-radius: 50%;
+      box-shadow: 
+        0 0 6px 2px rgba(255,255,255,0.9),
+        0 0 12px 6px rgba(255,255,255,0.5);
+      animation: twinkle 3s infinite ease-in-out;
     }
 
-    /* نجم أكبر */
+    /* نجمتين كبار */
     .big-star {
-      width: 30px;
-      height: 30px;
-      background: white;
-      box-shadow: 0 0 20px 8px rgba(255,255,255,1);
+      width: 10px;
+      height: 10px;
+      box-shadow: 
+        0 0 10px 4px rgba(255,255,255,1),
+        0 0 25px 10px rgba(255,255,255,0.7),
+        0 0 40px 15px rgba(255,255,200,0.6);
     }
 
     @keyframes twinkle {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
+      50% { opacity: 0.6; transform: scale(1.15); }
     }
   </style>
 </head>
@@ -44,23 +42,23 @@
   <script>
     const starNames = [
       "Sirius","Canopus","Arcturus","Vega","Capella","Rigel","Procyon","Achernar",
-      "Betelgeuse","Hadar","Altair","Acrux","Aldebaran","Antares","Spica","Pollux",
-      "Fomalhaut","Deneb","Mimosa","Regulus","Adhara","Shaula","Castor","Bellatrix",
-      "Elnath","Miaplacidus","Alnilam","Alnair","Alioth","Alnitak","Dubhe","Merak"
+      "Betelgeuse","Altair","Acrux","Aldebaran","Antares","Spica","Pollux",
+      "Fomalhaut","Deneb","Regulus","Shaula","Castor","Bellatrix","Polaris"
     ];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 120; i++) {
       const star = document.createElement("div");
       star.classList.add("star");
       star.style.left = `${random(0, window.innerWidth)}px`;
       star.style.top = `${random(0, window.innerHeight)}px`;
       star.title = starNames[Math.floor(Math.random() * starNames.length)];
 
-      if (i === 20 || i === 50) {
+      // خلي نجمتين كبار مميزين
+      if (i === 30 || i === 90) {
         star.classList.add("big-star");
         star.title += " (Giant)";
       }
